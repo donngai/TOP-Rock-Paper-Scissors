@@ -36,25 +36,24 @@ function game () {
     let playerPoint = 0;
     let compPoint = 0;
 
-    for (let i = 0; i < 5; i++) {
-        let playerChoice = getPlayerChoice();
-        let compChoice = getCompChoice();
-        
-        let roundWinner = playRound(playerChoice, compChoice);
-        if (roundWinner == 1) {
-            playerPoint++;
-            console.log("You won! " + playerChoice + " beats " + compChoice);
-        }
-        else if (roundWinner == -1) {
-            compPoint++;
-            console.log("You lose! " + compChoice + " beats " + playerChoice);
-        }
-        else
-            console.log("It's tied");
-
-        console.log(i);
+    //Get choice
+    let playerChoice = getPlayerChoice();
+    let compChoice = getCompChoice();
+    
+    //Determine winner
+    let roundWinner = playRound(playerChoice, compChoice);
+    if (roundWinner == 1) {
+        playerPoint++;
+        console.log("You won! " + playerChoice + " beats " + compChoice);
     }
+    else if (roundWinner == -1) {
+        compPoint++;
+        console.log("You lose! " + compChoice + " beats " + playerChoice);
+    }
+    else
+        console.log("It's tied");
 
+    //Print winner
     if (playerPoint > compPoint)
         console.log("You win the game!");
     else if (compPoint > playerPoint)
