@@ -1,3 +1,24 @@
+//DOM of the game
+const points = document.createElement("div");
+const player = document.createElement("div");
+const comp = document.createElement("div");
+points.appendChild(player);
+points.appendChild(comp);
+
+points.setAttribute("style", "display: flex; justify-content: space-around; padding: 0px; font-size: 30px;");
+player.setAttribute("style", "color: blue; text-decoration: underline;");
+comp.setAttribute("style", "color: red; text-decoration: underline;");
+
+const result = document.createElement("div");
+result.style.width = "500px";
+result.style.fontSize = "20px";
+
+const container = document.querySelector(".choice");
+container.appendChild(points);
+container.appendChild(result);
+
+
+//Functions to the game
 function getCompChoice () {
     let choice = Math.floor(Math.random() * 3);
 
@@ -10,20 +31,16 @@ function getCompChoice () {
 }
 
 function getPlayerChoice () {
-    let input = prompt("Please enter 'Rock', 'Paper', or 'Scissors': ");
+    const btns = document.querySelectorAll('button');
 
-    input = input.toLowerCase();
-    let cap = input.slice(0, 1);
-    cap = cap.toUpperCase();
-
-    return cap.concat(input.slice(1));
+    btns.forEach((button) => {
+        button.addEventListener('click', () => {
+            return(button.id);
+        });
+    });
 }
 
 function playRound (playerChoice, compChoice) {
-    //Default value for playerChoice if incorrect input
-    if (playerChoice != "Rock" || playerChoice != "Paper" || playerChoice != "Scissors")
-        playerChoice = "Rock";
-
     if (playerChoice === compChoice)
         return 0;
     else if ((playerChoice === "Rock" && compChoice === "Paper") || (playerChoice === "Paper" && compChoice === "Scissors") || (playerChoice === "Scissors" && compChoice === "Rock"))
@@ -33,33 +50,40 @@ function playRound (playerChoice, compChoice) {
 }
 
 function game () {
-    let playerPoint = 0;
-    let compPoint = 0;
+    const btns = document.querySelectorAll('button');
+    let playerPoint = 0, compPoint = 0;
 
-    //Get choice
-    let playerChoice = getPlayerChoice();
-    let compChoice = getCompChoice();
-    
-    //Determine winner
-    let roundWinner = playRound(playerChoice, compChoice);
-    if (roundWinner == 1) {
-        playerPoint++;
-        console.log("You won! " + playerChoice + " beats " + compChoice);
-    }
-    else if (roundWinner == -1) {
-        compPoint++;
-        console.log("You lose! " + compChoice + " beats " + playerChoice);
-    }
-    else
-        console.log("It's tied");
+    btns.forEach((button) => {
+        button.addEventListener('click', () => {
+            let compChoice = getCompChoice();
+            let roundWinner = playRound(button.id, compChoice);
 
-    //Print winner
-    if (playerPoint > compPoint)
-        console.log("You win the game!");
-    else if (compPoint > playerPoint)
-        console.log("The computer won the game");
-    else
-        console.log("It's tied!!!")
+            if (roundWinner == 1) {
+                playerPoint++;
+                result.textContent = "You won! " + button.id + " beats " + compChoice;
+            }
+            else if (roundWinner == -1) {
+                compPoint++;
+                result.textContent = "You lose! " + compChoice + " beats " + button.id;
+            }
+            else
+                result.textContent = "It's tied!";
+
+            player.textContent = "Player: " + playerPoint;
+            comp.textContent = "Computer: " + compPoint;
+            
+            if (playerPoint == 5 || compPoint == 5) {
+                if (playerPoint > compPoint)
+                    result.textContent = "You win the game! 😊";
+                else if (compPoint > playerPoint)
+                    result.textContent = "The computer won the game 😔";
+                else 
+                    result.textContent = "It's tied!!!";
+
+                game();
+            }   
+        });
+    });
 }
 
 game();
