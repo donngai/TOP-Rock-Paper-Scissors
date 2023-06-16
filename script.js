@@ -80,6 +80,7 @@ function game () {
                 else 
                     result.textContent = "It's tied!!!";
 
+                result.textContent += "Press any button to play again";
                 game();
             }   
         });
