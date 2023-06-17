@@ -81,7 +81,8 @@ function game () {
                     result.textContent = "It's tied!!!";
 
                 result.textContent += "Press any button to play again";
-                game();
+                playerPoint = 0;
+                compPoint = 0;
             }   
         });
     });
